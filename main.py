@@ -29,7 +29,7 @@ unix_time1 = int(unix_time1)
 unix_time2 = time.mktime(dt2.timetuple())
 unix_time2 = int(unix_time2)
 
-ss = StockSymbol(api_key)
+ss = StockSymbol(st.secrets['api_key'])
 symbol_list_us = ss.get_symbol_list(market='US')
 
 symbol_list_steamlit = []
@@ -38,7 +38,7 @@ for i in range(len(symbol_list_us)):
 
 stock_symbol = st.sidebar.selectbox('Select The Stock Symbol', symbol_list_steamlit)
 
-def api_call(user_agent, unix_time1, unix_time2, stock_symbol):
+def api_call(st.secrets['user_agent'], unix_time1, unix_time2, stock_symbol):
     dt = date.today()
     dt = time.mktime(dt.timetuple())
     dt = int(dt)
