@@ -38,7 +38,7 @@ for i in range(len(symbol_list_us)):
 
 stock_symbol = st.sidebar.selectbox('Select The Stock Symbol', symbol_list_steamlit)
 
-def api_call(st.secrets['user_agent'], unix_time1, unix_time2, stock_symbol):
+def api_call(user_agent, unix_time1, unix_time2, stock_symbol):
     dt = date.today()
     dt = time.mktime(dt.timetuple())
     dt = int(dt)
@@ -83,5 +83,5 @@ def plot_graph(pd_stock_inter, unix_time1, unix_time2):
         st.plotly_chart(fig, use_container_width=True)
 
 if st.sidebar.button('Submit'):
-    pd_stock_inter = api_call(user_agent, unix_time1, unix_time2, stock_symbol)
+    pd_stock_inter = api_call(st.secrets['user_agent'], unix_time1, unix_time2, stock_symbol)
     plot_graph(pd_stock_inter, unix_time1, unix_time2)
