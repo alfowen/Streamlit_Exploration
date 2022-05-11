@@ -7,7 +7,6 @@ import csv
 import pandas as pd
 # os Imports
 import os
-from dotenv import load_dotenv, find_dotenv
 # Streamlit module import
 import streamlit as st
 # API Module Imports
@@ -19,11 +18,6 @@ import plotly.express as px
 
 pd.set_option('display.width', 300)
 pd.set_option('display.max_columns', None)
-
-# Environment Parameters
-load_dotenv(find_dotenv())
-api_key = os.environ.get('API_KEY')
-user_agent = os.environ.get('USER_AGENT')
 
 # Streamlit Code
 st.markdown('''         ## 💵 Stock Market Data & Analysis📈''')
