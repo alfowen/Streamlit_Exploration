@@ -43,13 +43,23 @@ def api_call(user_agent, unix_time1, unix_time2, stock_symbol):
     dt = time.mktime(dt.timetuple())
     dt = int(dt)
 
-    if unix_time1 == unix_time2 and unix_time1 == dt:
+    if unix_time1 == unix_time2:
         url = 'https://query1.finance.yahoo.com/v7/finance/quote?symbols='
         headers = {'user-agent': user_agent}
         response = requests.get(url + stock_symbol, headers=headers)
         web_data = response.json()
         pd_stock_interim = pd.json_normalize(web_data['quoteResponse']['result'])
-        st.table(pd_stock_interim)
+        pd_stock_output = pd_stock_interim.filter(items=['longName','regularMarketOpen','regularMarketPrice',
+                                                         'regularMarketDayHigh','regularMarketDayRange','regularMarketDayLow',
+                                                         'fiftyTwoWeekHigh','fiftyTwoWeekLow','regularMarketVolume',
+                                                         'trailingPE','averageDailyVolume3Month'])
+        st.table(pd_stock_output.rename(columns={'longName':'Stock_Name','regularMarketOpen':'Open',
+                                                 'regularMarketPrice':'Market_Price','regularMarketDayHigh':'Market_High',
+                                                 'regularMarketDayRange':'Market_Day_Range',
+                                                 'regularMarketDayLow':'Market_Low',
+                                                 'fiftyTwoWeekHigh':'52W H','fiftyTwoWeekLow': '52W L',
+                                                 'regularMarketVolume':'Vol',
+                                                 'trailingPE':'PE','averageDailyVolume3Month':'Avg Vol'}))
     else:
         url = 'https://query1.finance.yahoo.com/v7/finance/download/'
         headers = {'user-agent': user_agent}
@@ -74,7 +84,7 @@ def plot_graph(pd_stock_inter, unix_time1, unix_time2):
     dt = date.today()
     dt = time.mktime(dt.timetuple())
     dt = int(dt)
-    if unix_time1 == unix_time2 and unix_time1 == dt:
+    if unix_time1 == unix_time2:
         pass
     else:
         fig = px.line(data_frame=pd_stock_inter, x='Date', y='Close',
