@@ -53,13 +53,26 @@ def api_call(user_agent, unix_time1, unix_time2, stock_symbol):
                                                          'regularMarketDayHigh','regularMarketDayRange','regularMarketDayLow',
                                                          'fiftyTwoWeekHigh','fiftyTwoWeekLow','regularMarketVolume',
                                                          'trailingPE','averageDailyVolume3Month'])
-        st.table(pd_stock_output.rename(columns={'longName':'Stock_Name','regularMarketOpen':'Open',
-                                                 'regularMarketPrice':'Market_Price','regularMarketDayHigh':'Market_High',
-                                                 'regularMarketDayRange':'Market_Day_Range',
-                                                 'regularMarketDayLow':'Market_Low',
-                                                 'fiftyTwoWeekHigh':'52W H','fiftyTwoWeekLow': '52W L',
-                                                 'regularMarketVolume':'Vol',
-                                                 'trailingPE':'PE','averageDailyVolume3Month':'Avg Vol'}))
+        pd_stock_output = pd_stock_output.rename(columns={'longName':'Stock_Name','regularMarketOpen':'Open',
+                                                          'regularMarketPrice':'Market_Price','regularMarketDayHigh':'Market_High',
+                                                          'regularMarketDayRange':'Market_Day_Range',
+                                                          'regularMarketDayLow':'Market_Low',
+                                                          'fiftyTwoWeekHigh':'52W H','fiftyTwoWeekLow': '52W L',
+                                                          'regularMarketVolume':'Vol',
+                                                          'trailingPE':'PE','averageDailyVolume3Month':'Avg Vol'})
+        col1, col2, col3 = st.columns(3)
+        col1.metric('Open', pd_stock_output['Open'])
+        col3.metric('Market Price', pd_stock_output['Market_Price'])
+        col1, col2, col3 = st.columns(3)
+        col1.metric('Market High', pd_stock_output['Market_High'])
+        col2.metric('Market Low', pd_stock_output['Market_Low'])
+        col3.metric('52W H', pd_stock_output['52W H'])
+        col1, col2, col3 = st.columns(3)
+        col1.metric('52W L', pd_stock_output['52W L'])
+        col2.metric('Vol', pd_stock_output['Vol'])
+        col3.metric('Avg Vol', pd_stock_output['Avg Vol'])
+        st.metric('Market Day Range', (str(pd_stock_output['Market_Day_Range'])[5:]).
+                  rstrip('Name: Market_Day_Range, dtype: object'))
     else:
         url = 'https://query1.finance.yahoo.com/v7/finance/download/'
         headers = {'user-agent': user_agent}
