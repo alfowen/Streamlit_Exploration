@@ -5,6 +5,7 @@ from datetime import date
 # Data Wrangling Module Imports
 import csv
 import pandas as pd
+from numerize import numerize
 # os Imports
 import os
 # Streamlit module import
@@ -69,8 +70,8 @@ def api_call(user_agent, unix_time1, unix_time2, stock_symbol):
         col3.metric('52W H', pd_stock_output['52W H'])
         col1, col2, col3 = st.columns(3)
         col1.metric('52W L', pd_stock_output['52W L'])
-        col2.metric('Vol', pd_stock_output['Vol'])
-        col3.metric('Avg Vol', pd_stock_output['Avg Vol'])
+        col2.metric('Vol', str(numerize.numerize(int(pd_stock_output['Vol']))))
+        col3.metric('Avg Vol', str(numerize.numerize(int(pd_stock_output['Avg Vol']))))
         st.metric('Market Day Range', (str(pd_stock_output['Market_Day_Range'])[5:]).
                   rstrip('Name: Market_Day_Range, dtype: object'))
     else:
